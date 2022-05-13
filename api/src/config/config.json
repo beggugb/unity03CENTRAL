@@ -1,0 +1,17 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "ileana2020",
+      "database": "central",
+      "host": "192.168.0.250",
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "postgres",
+      "password": "ileana2020",
+      "database": "central",
+      "host": "192.168.0.250",
+      "dialect": "postgres"
+    }
+  }
+  
