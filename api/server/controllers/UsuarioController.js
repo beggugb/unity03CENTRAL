@@ -1,9 +1,24 @@
 import UsuarioService from "../services/UsuarioService";
-
+import MailService from "../services/MailService"
 const bcrypt = require('bcrypt')
 class UsuarioController {
 
+  static demo(req, res) {    
+    const { nombres, email } = req.body    
+    UsuarioService.setAdd(req.body)
+      .then((user) => {                
+        MailService.setRegistro(nombres, email)
+        .then((user) => {                  
+          res.status(200).send({ message: "ok" });
+        })  
+      })                            
+      .catch((reason) => {             
+        console.log(reason) 	    
+        res.status(400).send({ message: reason });
+    });
+  }
 
+  /*
   static crear(req, res) {           
     UsuarioService.setAdd(req.body)
         .then((usuario)=>{          
@@ -102,7 +117,7 @@ class UsuarioController {
         console.log(reason) 	    
         res.status(400).send({ message: reason });
     });
-  }
+  }*/
 }
 
 

@@ -4,8 +4,40 @@ const Op = Sequelize.Op;
 const { Marca } = database;
 import nodeMailer from "nodemailer";
 class MailService {
+
+  static setRegistro(nombres, email) {                
+    return new Promise((resolve, reject) => {      
+        let transporter = nodeMailer.createTransport({
+          host: 'smtp.gmail.com',
+          port: 465,
+          secure: true,
+          auth: {
+            user: 'beggugb@gmail.com',
+            pass: 'ileana800',
+          },
+        });
+        
+        let template    = registro(nombres,email);
+        let templateMsg = 'registro';
+        let emailUser   = 'gabgpa@gmail.com';
+     
+       
+        let mailOptions = {
+          to: emailUser,
+          subject: templateMsg,
+          html: template          
+        };
+    
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            resolve({ mail: error });
+          }
+          resolve({ mail: "ok" });
+        });
+      });
+} 
   
-  static getCotizaciones(compraId,subject,empresa,usuario) {                
+/*  static getCotizaciones(compraId,subject,empresa,usuario) {                
     return new Promise((resolve, reject) => {      
         let transporter = nodeMailer.createTransport({
           host: empresa.smtpHost,
@@ -149,28 +181,26 @@ class MailService {
             resolve({ mail: "ok" });
           });
         });
-    } 
+    } */
 
     
 }
-function cotizaciones(id,nombres, email){
+function registro(nombres, email){
   let d      = new Date() 
   let fecha  = (new Date(d + 'UTC')).toISOString().replace(/-/g, '-').split('T')[0] 
   let hora   = d.getHours() +':'+ d.getMinutes()
 
-    let template =`<body><h2>Cotización N° ${id}</h2>      
-                    <p><b>Proveedor :</b> ${nombres}</p>
+    let template =`<body><h2>Nuevo registro</h2>      
+                    <p><b>Usuario :</b> ${nombres}</p>
                     <p><b>Email :</b> ${email}</p>
                     <p><b>Fecha :</b> ${fecha}</p>
                     <p><b>Hora :</b> ${hora}</p>
                     <p>                        
-                    <p>Adjunta la solicitud de cotización</p>                                    
-                    <p>En esta dirección de correo recibirás solo lo importante. </p>                                    
-                    <p>UNITY 2.1</p>
+                    <p>Registro de nuevo usuario</p>                                                        
                   </body>`
     return template                  
 }
-function prospecto(id,nombres, email){
+/*function prospecto(id,nombres, email){
   let d      = new Date() 
   let fecha  = (new Date(d + 'UTC')).toISOString().replace(/-/g, '-').split('T')[0] 
   let hora   = d.getHours() +':'+ d.getMinutes()
@@ -220,6 +250,6 @@ function cotizacion(id,nombres, email){
                     <p>UNITY 2.1</p>
                   </body>`
     return template                  
-}
+}*/
  
 export default MailService;
